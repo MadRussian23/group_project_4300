@@ -124,13 +124,6 @@
 					Release Date: ${game.getDate()} <br /> 
 					Price: $${game.getPrice()} <br />
 					Description: ${game.getDescription()} <br /> 
-					Select console:<select>
-						<option value="PS4">PS4</option>
-						<option value="PS3">PS3</option>
-						<option value="XBOXONE">XBOXONE</option>
-						<option value="Xbox 360">Xbox 360</option>
-						<option value="PC">PC</option>
-					</select><br />
 					<br />
 				
 		</#list>

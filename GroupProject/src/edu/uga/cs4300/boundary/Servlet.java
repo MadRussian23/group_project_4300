@@ -122,7 +122,12 @@ public class Servlet extends HttpServlet {
 			gameList.clear();
 			
 			if(console != null){
-				gameList.addAll(logic.getGamesByConsole(console));
+				if(console.equalsIgnoreCase("All")){
+					gameList.addAll(logic.getAllGames());
+				}
+				else {
+					gameList.addAll(logic.getGamesByConsole(console));
+				}
 				root.put("games", gameList);
 				root.put("console", console);
 				runTemplate(request, response,"displayGames.ftl");
