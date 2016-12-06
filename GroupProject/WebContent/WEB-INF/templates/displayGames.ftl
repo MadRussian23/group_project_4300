@@ -126,6 +126,7 @@
 					Developer: ${game.getDev()} <br /> 
 					Release Date: ${game.getDate()} <br /> 
 					Price: $${game.getPrice()} <br /> 
+					Description: ${game.getDescription()} <br />
 					Select console:<select>
 						<option value="PS4">PS4</option>
 						<option value="PS3">PS3</option>
@@ -138,11 +139,14 @@
 					<br />
 				
 		</#list>
+		
 		</article>
 		<footer> 
 		</footer>
 	</div>
 	<script>
+		
+		
         document.getElementById("button").style.display = "none";
         document.getElementById("button2").style.display = "none";
         document.getElementById("button3").style.display = "none";

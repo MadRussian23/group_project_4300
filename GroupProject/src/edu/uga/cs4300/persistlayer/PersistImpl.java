@@ -139,7 +139,28 @@ public class PersistImpl {
 		ResultSet rs = access.retrieve(con,reviews);
 		return rs;
 	}//getReviews
-	
+    
+    /**
+     * used to remove item to cart based on user id and game id
+     * @param user_id
+     * @param game_id
+     */
+    public int removeFromCart(int user_id, int game_id){
+		String cart = "DELETE FROM `project_group`.`cart` WHERE user_id = '"+user_id+"'"
+                        + " AND game_id = '"+game_id+"'";
+		int update = access.delete(con,cart);
+		return update;
+	}//removeFromCart
+    
+        /**
+     * used to remove item to cart based on user id
+     * @param user_id
+     */
+    public void clearCart(int user_id){
+		String cart = "DELETE FROM `project_group`.`cart` WHERE user_id = '"+user_id+"'";
+		int update = access.delete(con,cart);
+	}//clearCart
+    
     /**
      * used to add review to table
      * @param game_id
@@ -153,5 +174,11 @@ public class PersistImpl {
 				+user_id+","+score+");";
 		int update = access.update(con,reviews);
 	}//getReviews
+    
+    public void updateStock(int game_id){
+        String stock= "UPDATE `project_group`.`games` SET `stock` = stock-1 "
+                + "WHERE `id` = "+game_id+";";
+        int update = access.update(con,stock);
+    }
 		
 }

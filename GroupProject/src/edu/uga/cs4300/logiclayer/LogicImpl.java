@@ -20,6 +20,7 @@ public class LogicImpl {
 	ArrayList<Game> gameList = new ArrayList<>();
 	ArrayList<Review> reviewList = new ArrayList<>();
 	ArrayList<User> userList = new ArrayList<>();
+	ArrayList<String> consoleList = new ArrayList<>();
 
 	public LogicImpl(HttpServletRequest req, HttpServletResponse res){
 		request = req;
@@ -166,7 +167,23 @@ public class LogicImpl {
 		}
 		return gameList;
 	}//getGamesByConsole
-
+	
+	public ArrayList<String> getConsolesByGame(int game_id){
+        consoleList.clear();
+        ResultSet consoles = persist.getConsoles(game_id);
+        try{
+            while(consoles.next()){
+                String con ="";
+                con = consoles.getString("consule");
+                consoleList.add(con);
+            }
+        } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return consoleList;
+    }
+	
 	public ArrayList<User> getUser(){
 		ResultSet users = persist.getUser();
 
@@ -223,7 +240,7 @@ public class LogicImpl {
     public void addReview(int game_id, String review,int user_id,int score){
             persist.addReview(game_id, review, user_id, score);
         }//addReview
-
+    
 	public ArrayList<Game> getCart(int user_id){
 		gameList.clear();
 		//get the result sets
@@ -256,5 +273,30 @@ public class LogicImpl {
 		}//trycatch
 		return gameList;
 	}//getCart
-
+	
+	/**
+     * used to add game per cart
+     * @param user_id
+     * @param game_id
+     */
+    public void addToCart(int user_id, int game_id){
+            persist.addToCart(user_id, game_id);
+        }
+    /**
+     * used to remove game per cart
+     * @param user_id
+     * @param game_id
+     */
+    public int removeFromCart(int user_id, int game_id){
+            int update = persist.removeFromCart(user_id, game_id);
+            return update;
+        }
+    
+    public void updateStock(int game_id){
+        persist.updateStock(game_id);
+    }
+    
+    public void clearCart(int user_id){
+        persist.clearCart(user_id);
+    }
 }

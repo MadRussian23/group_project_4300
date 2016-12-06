@@ -3,7 +3,7 @@
 <head>
       <meta charset="UTF-8">
       <title>Games</title>
-		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://js.braintreegateway.com/web/3.6.0/js/client.min.js"></script>
 		<script src="https://js.braintreegateway.com/web/3.6.0/js/paypal.min.js"></script>
 		<script src="script.js"></script>
@@ -134,13 +134,42 @@
   							<button id="purchase" value = "${game.getId()}" name="gameToCart">Add to Cart</button>
   						</form>
 					</#if>
-					
+					<#list reviews as review>
+						${review.getReview()}
+						<br />
+						${review.getReviewer()} - ${review.getScore()}
+						<br />
+					</#list>
+					<form id="subReview" method="post" action="Servlet" onsubmit="return mySubmitFunction()">
+						<textarea id="textA" rows="4" cols="50" name="myReview">
+						</textarea>
+						<br />
+						Score :<input id="myScore" type="number" name="score" min="1" max="10" />/10
+						<br />
+						<button type="submit" value="${game.getId()}" id="submitReview" name="idForReview">Submit your Review</button>
+					</form>
 					<br />
+					
 		</article>
 		<footer> 
 		</footer>
 	</div>
 	<script>
+		function mySubmitFunction(){
+			if($("#textA").val() && !$("#myScore").val()){
+				alert("Both fields have to filled in!");
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		document.getElementById("submitReview").onclick = function(){
+		var score = document.getElementById("myScore").value;
+			if(score > 10 || score < 0){
+				alert("Score has to be larger than 0 and smaller than 11");
+			}
+		}
         document.getElementById("button").style.display = "none";
         document.getElementById("button2").style.display = "none";
         document.getElementById("button3").style.display = "none";

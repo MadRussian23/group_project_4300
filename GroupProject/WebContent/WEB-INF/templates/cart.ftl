@@ -114,6 +114,7 @@
 			<h1> Game in the Cart</h1>
 	
 		<#list games as game>
+			
 				<img src=${game.getImage()} alt=${game.getName()} height="400" width="300" /><br />
 					${game.getName()} <br /> 
 					Publisher: ${game.getPub()} <br /> 
@@ -124,9 +125,54 @@
 						<button type="submit" value="${game.getId()}" name="gameToRemove">Remove</button>
 					</form>
 					<br />
+			
 		</#list>
+		<form method="post" action="Servlet">
+			<button type="submit" value="clear" name="clearCart">Clear Cart</button>
+		</form>
 		Total: $${totalPrice} <br />
 		Checkout: 
+		 <div id="paypal-button"></div>
+ 
+ 				<script src="https://www.paypalobjects.com/api/checkout.js"
+ 					data-version-4></script>
+ 
+ 				<script>
+ 					paypal.Button.render({
+ 
+ 						env : 'sandbox', // Optional: specify 'sandbox' environment
+ 
+ 						client : {
+ 							sandbox : 'ARq4fCr-_83GaSDXGBueKliAEeYU-feHIyRAI-NxxzZTIK4m8WWSO6R8iBysag-KGg_p5_vjNaK-JEjU',
+ 							production : 'xxxxxxxxx'
+ 						},
+ 
+ 						payment : function() {
+ 
+ 							var env = this.props.env;
+ 							var client = this.props.client;
+ 
+ 							return paypal.rest.payment.create(env, client, {
+ 								transactions : [ {
+ 									amount : {
+ 										total : ${totalPrice},
+ 										currency : 'USD'
+ 									}
+ 								//TODO change to game price when dynamically generated
+ 								} ]
+ 							});
+ 						},
+ 
+ 						commit : true, // Optional: show a 'Pay Now' button in the checkout flow
+ 
+ 						onAuthorize : function(data, actions) {
+ 							return actions.payment.execute().then(function() {
+ 								// Show a success page to the buyer
+                                                                document.location.href = 'http://localhost:8080/WEB-INF/index.html';
+ 							});
+ 						}
+ 					}, '#paypal-button');
+ 				</script>
 		</article>
 		<footer> 
 		</footer>
